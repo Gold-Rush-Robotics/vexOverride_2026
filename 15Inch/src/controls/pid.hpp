@@ -52,12 +52,12 @@ class PID{
     double getResult() const { return result; }
     double getError() const { return error; }
 
-    // Derivative related functions
+    // Derivative related function(s)
     double calcD(double dt) {
         return ((error - last_error) / dt);
     }
 
-    // Integral related function
+    // Integral related function(s)
     double calcI(double dt) {
         if (start_integral > 0.0 && std::fabs(error) < start_integral) {
             integral += error * dt;
@@ -70,7 +70,7 @@ class PID{
         return fmax(-anti_windup, fmin(integral, anti_windup));
     }
 
-    // Output related function
+    // Output related function(s)
     double clampResult() {
         return fmax(min_out, fmin(result, max_out));
     }
