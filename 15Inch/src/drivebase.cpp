@@ -55,6 +55,7 @@ void getTemperature();
 bool arcadeControl = false;
 
 int main() {
+
   // Initializing Robot Configuration
   vexcodeInit();
 
@@ -201,12 +202,20 @@ void getTemperature() {
   // Display the temperatures on the controller's screen
   Controller1.Screen.clearScreen();
   Controller1.Screen.setCursor(1, 1);
-  Controller1.Screen.print("Left Motor Temp: %.2f C", leftMotorTemp);
+  Controller1.Screen.print("Left Motor Temp: %.2f C", leftMotorTemp); // Print left motor temperature to controller screen
   Controller1.Screen.setCursor(2, 1);
-  Controller1.Screen.print("Right Motor Temp: %.2f C", rightMotorTemp);
+  Controller1.Screen.print("Right Motor Temp: %.2f C", rightMotorTemp); // Print right motor temperature to controller screen
+
+  printf("Left Motor Temp: %.2f C\n", leftMotorTemp); // Print left motor temperature to console
+  printf("Right Motor Temp: %.2f C\n", rightMotorTemp); // Print right motor temperature to console
+
 
   wait(25, msec); // Update every 25 milliseconds
+  printf("\033[2J"); // Clear the console screen
 }
+
+
+
 
 
 
