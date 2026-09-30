@@ -18,7 +18,7 @@ extern motor rightMotor5;
 //VEX motor group initializations
 extern motor_group leftMotorGroup;
 extern motor_group rightMotorGroup;
-
+extern drivetrain myDriveTrain;
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *
