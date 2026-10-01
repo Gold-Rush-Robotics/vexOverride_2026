@@ -93,9 +93,9 @@ int main() {
     // rightMotorGroup.spin(forward);
 
     driveControl();
-    arcadeControl = checkDriveStyle(arcadeControl);
-    setDriveStyle(arcadeControl);
-    getTemperature();
+    //arcadeControl = checkDriveStyle(arcadeControl);
+    //setDriveStyle(arcadeControl);
+    //getTemperature();
 
     
 
@@ -121,7 +121,7 @@ void driveControl() {
   }
 
   // Turn control
-  if( Controller1.Axis4.position() > 5) {
+  if(Controller1.Axis4.position() > 5) {
     myDriveTrain.setTurnVelocity(Controller1.Axis4.position() < 100 ? Controller1.Axis4.position() : 100, percent);
     myDriveTrain.turn(right);
   } else if (Controller1.Axis4.position() < -5) {
@@ -210,7 +210,7 @@ void getTemperature() {
   printf("Right Motor Temp: %.2f C\n", rightMotorTemp); // Print right motor temperature to console
 
 
-  wait(25, msec); // Update every 25 milliseconds
+  wait(150, msec); // Update every 150 milliseconds
   printf("\033[2J"); // Clear the console screen
 }
 
