@@ -24,6 +24,9 @@ motor rightMotor5 = motor(PORT16, ratio6_1, false);
 motor_group leftMotorGroup = motor_group(leftMotor1, leftMotor2, leftMotor3, leftMotor4, leftMotor5);
 motor_group rightMotorGroup = motor_group(rightMotor1, rightMotor2, rightMotor3, rightMotor4, rightMotor5);
 
+//VEX sensors
+inertial Inertial = inertial(PORT20);
+
 // VEXcode generated functions
 
 /**

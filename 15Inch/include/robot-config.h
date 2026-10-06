@@ -19,6 +19,9 @@ extern motor rightMotor5;
 extern motor_group leftMotorGroup;
 extern motor_group rightMotorGroup;
 
+//VEX sensors
+extern inertial Inertial;
+
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *
