@@ -24,6 +24,9 @@ motor rightMotor5 = motor(PORT16, ratio6_1, false);
 motor_group leftMotorGroup = motor_group(leftMotor1, leftMotor2, leftMotor3, leftMotor4, leftMotor5);
 motor_group rightMotorGroup = motor_group(rightMotor1, rightMotor2, rightMotor3, rightMotor4, rightMotor5);
 
+// VEX sensors
+inertial Inertial = inertial(PORT20);
+
 // VEXcode generated functions
 
 /**
@@ -32,5 +35,20 @@ motor_group rightMotorGroup = motor_group(rightMotor1, rightMotor2, rightMotor3,
  * This should be called at the start of your int main function.
  */
 void vexcodeInit(void) {
-  // nothing to initialize
+  Brain.Screen.print("Device intialization...");
+  Brain.Screen.setCursor(2, 1);
+
+  // Calibrate the inertial sensor
+  wait(200, msec);
+  Inertial.calibrate();
+  Brain.Screen.print("Calibrating Inertial for Drivetrain");
+  while(Inertial.isCalibrating()) {
+    wait(25, msec);
+  }
+
+  // Reset the brain once the calibration is done
+  Brain.Screen.clearScreen();
+  Brain.Screen.setCursor(1,1);
+  wait(50, msec);
+  Brain.Screen.clearScreen();
 }
