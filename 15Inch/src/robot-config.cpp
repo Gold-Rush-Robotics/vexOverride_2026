@@ -11,6 +11,21 @@ brain Brain;
 inertial Inertial = inertial(PORT10);
 gps GPS = gps(PORT1);
 
+controller Controller1 = controller(primary);
+motor leftMotor1 = motor(PORT6, ratio6_1, false);
+motor leftMotor2 = motor(PORT2, ratio6_1, true);
+motor leftMotor3 = motor(PORT3, ratio6_1, false);
+motor rightMotor1 = motor(PORT11, ratio6_1, true);
+motor rightMotor2 = motor(PORT12, ratio6_1, false);
+motor rightMotor3 = motor(PORT13, ratio6_1, true);
+
+//VEX motor groups
+motor_group leftMotorGroup = motor_group(leftMotor1, leftMotor2, leftMotor3);
+motor_group rightMotorGroup = motor_group(rightMotor1, rightMotor2, rightMotor3);
+
+drivetrain myDriveTrain = drivetrain(leftMotorGroup, rightMotorGroup, 320, 320, 130, mm, 1.0);
+
+
 // VEXcode generated functions
 
 /**
