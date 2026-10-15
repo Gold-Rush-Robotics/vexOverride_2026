@@ -7,8 +7,8 @@ class TrapezoidProfile {
     bool negative = false;
 
     // Retained all original variables to ensure compatibility with caller
-    double j_const, a_max;
-    double v_max, v_limit;
+    double a_max;
+    double v_max, v_limit;   
     double d_accel, d_cruise, d_total;
     double t_accel, t_cruise, t_total;
 
@@ -24,7 +24,6 @@ class TrapezoidProfile {
         }
 
         // Formulas for trapezoidal motion profile
-        // Directly applied from the reference image[cite: 1]
         t_accel = v_max / a_max; 
         d_accel = 0.5 * a_max * pow(t_accel, 2); 
         d_cruise = d_total - (2.0 * d_accel); 
@@ -39,13 +38,7 @@ class TrapezoidProfile {
 
     public:
     TrapezoidProfile(double maxAccel, double maxVel, double totalDist)
-        : TrapezoidProfile(0.0, maxAccel, maxVel, totalDist) {
-    }
-
-    TrapezoidProfile(double const_jerk, double maxAccel, double maxVel, double totalDist)
-        : j_const(const_jerk), a_max(maxAccel), v_limit(maxVel), d_total(fabs(totalDist)) {
-
-        negative = (totalDist < 0);
+        : a_max(maxAccel), v_limit(maxVel), d_total(fabs(totalDist)) {
 
         negative = (totalDist < 0);
 
@@ -66,7 +59,6 @@ class TrapezoidProfile {
         double pos = 0.0;
 
         // Piecewise bounds strictly matched to B1-B5
-        // in the reference image[cite: 1]
         if (t <= 0.0) { 
             // B1: t == 0
             pos = 0.0;
