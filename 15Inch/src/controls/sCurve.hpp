@@ -6,7 +6,7 @@ class sCurveProfile {
     private:
     bool negative = false;
 
-    double a_max;
+    double j_const, a_max;
     double v_p1, v_max, v_limit;   // v_limit: caller's cap, never modified
     double d_jerkUp, d_jerkDown, d_accel, d_cruise, d_total;
     double t_jerk, t_accel, t_cruise, t_total;
@@ -42,8 +42,8 @@ class sCurveProfile {
     }
 
     public:
-    sCurveProfile(double maxAccel, double maxVel, double totalDist)
-        : a_max(maxAccel), v_limit(maxVel), d_total(fabs(totalDist)) {
+    sCurveProfile(double const_jerk, double maxAccel, double maxVel, double totalDist)
+        : j_const(const_jerk), a_max(maxAccel), v_limit(maxVel), d_total(fabs(totalDist)) {
 
         negative = (totalDist < 0);
 
