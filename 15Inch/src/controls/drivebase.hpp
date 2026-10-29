@@ -56,7 +56,7 @@ public:
   }
 
 private:
-  static const int DEADBAND = 5;
+  static const int DEADBAND = 10;
 
   bool isTankDrive = false;
   bool lastButtonXState = false;
