@@ -14,7 +14,7 @@ int main() {
 
   // Create the robot drivetrain controller and a PID loop for autonomous turns.
   DriveBase driveBase;
-  PID drivePID(0.32, 0.0, 0.046, 5.0, 50.0, -100.0, 100.0, true);
+  PID drivePID(0.22, 0.0, 0.02, 5.0, 50.0, -100.0, 100.0, true);
   bool lastButtonAState = false;
 
   /*
@@ -22,6 +22,7 @@ int main() {
                   Tests
   (kP,  kI,  kD)  - Reason
   (0.3 ,0.0 ,0.0) - Overshoots by 1-5 degrees, oscillates for 1-2 times and settles
+  (0.22, 0.0, 0.02) - Around +- 0-1.5 degrees off
   
   =============================================== 
   
@@ -62,7 +63,7 @@ void turnAuto(PID& drivePID) {
   const double targetDegrees = 180.0;
   const double toleranceDegrees = 1.5;
   const double timeoutSeconds = 5.0;
-  const int requiredSettledCycles = 5;
+  const int requiredSettledCycles = 1;
   int settledCycles = 0;
   timer turnTimer;
   timer loopTimer;
