@@ -34,7 +34,7 @@ class PID{
     bool is_angular;
 
     static double wrap180(double angle) {
-        angle = std::fmod(angle + 180.0, 360.0);
+        angle = (angle + 180.0, 360.0);
 
         if (angle < 0) {angle += 360.0;}
 
@@ -59,7 +59,7 @@ class PID{
 
     // Integral related function(s)
     double calcI(double dt) {
-        if (start_integral > 0.0 && std::fabs(error) < start_integral) {
+        if (start_integral > 0.0 && (error) < start_integral) {
             integral += error * dt;
         }
 
