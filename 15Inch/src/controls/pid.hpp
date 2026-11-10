@@ -13,7 +13,7 @@ class PID{
     double integral = 0.0;
 
     // Accumulating integral when error passes a certain value
-    double start_integral = 0.0;
+    double start_integral;
 
     // Bounds integral error range
     double anti_windup;
@@ -22,7 +22,7 @@ class PID{
     double derivative = 0.0;
 
     // Stores the output value
-    double result;
+    double result = 0.0;
 
     // Initializing PID constants
     double kP, kI, kD, kT;
@@ -33,12 +33,18 @@ class PID{
     // Checks for wrapping
     bool is_angular;
 
+    bool first_update = true;
+
     static double wrap180(double angle) {
-        angle = (angle + 180.0, 360.0);
+        angle = fmod((angle + 180.0, 360.0));
 
         if (angle < 0) {angle += 360.0;}
 
         return angle - 180.0;
+    }
+
+    double rawResult() {
+        return (kP * error) + (kI * integral) + (kD * derivative);
     }
 
     public:
@@ -54,19 +60,41 @@ class PID{
 
     // Derivative related function(s)
     double calcD(double dt) {
-        return ((error - last_error) / dt);
+        if (first_update) {
+            first_update = false;
+            return 0.0;
+        }
+
+        double change = error - last_error;
+
+        if (is_angular) {change = wrap180(change);}
+        
+        return change / dt;
     }
 
     // Integral related function(s)
     double calcI(double dt) {
-        if (start_integral > 0.0 && (error) < start_integral) {
-            integral += error * dt;
+        bool in_zone = (start_integral <= 0.0) || (fabs(error) < start_integral);
+        bool crossed_zero = (error * last_error) < 0.0;
+
+        if (!in_zone || crossed_zero) {
+            return 0.0;
         }
 
-        return integral;
+        double raw = rawResult();
+        bool pushing_into_limit = (raw > max_out && error > 0.0) || (raw < min_out && error < 0.0);
+
+        if (pushing_into_limit) {
+            return integral;
+        }
+
+        return integral + (error*dt);
+
     }
     
     double clampI(double integral) {
+        if (anti_windup <= 0.0) {return integral;}
+
         return fmax(-anti_windup, fmin(integral, anti_windup));
     }
 
@@ -77,7 +105,7 @@ class PID{
 
     // Updating PID and tracking errors
     double update(double current_error, double dt) {
-        assert(dt > 0.0 && "PID: dt must be greater than 0");
+        if (dt <= 0.0) {return result;}
 
         if (is_angular) {
             error = wrap180(current_error);
@@ -85,24 +113,22 @@ class PID{
             error = current_error;
         }
 
-        integral = calcI(dt);
-
-        if (anti_windup > 0.0) {
-            integral = clampI(integral);
-        }
-
         derivative = calcD(dt);
+        integral = clampI(calcI(dt));
         last_error = error;
 
-        result = (kP * error) + (kI * integral) + (kD * derivative);
-        
-        return clampResult();
+        result = clampResult(rawResult);
+
+        return result;
     }
 
     void reset() {
         integral = 0.0;
+        derivative = 0.0;
         last_error = 0.0;
+        error = 0.0;
         result = 0.0;
+        first_update = true;
     }
 
     // Retune without recreating object
