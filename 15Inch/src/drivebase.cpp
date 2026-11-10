@@ -22,6 +22,13 @@
 
 using namespace vex;
 
+void autonomous(void);
+void moveForward1000mm();
+void moveBackward1000mm();
+void moveDistancePID(double targetMm);
+
+competition Competition;
+
 /*
   Keeps motor velocity in a valid range
 */
@@ -38,30 +45,9 @@ int applyDeadband(int speed, int deadband = 5) {
   return speed;
 }
 
-int main() {
-  // Initializing Robot Configuration
-  vexcodeInit();
-
-  // // Code for arcade control
-  // while (true) {
-  //   // Get the velocity percentage of the left motor. (Axis3)
-  //   int leftMotorSpeed = Controller1.Axis3.position();
-  //   // Get the velocity percentage of the right motor. (Axis2)
-  //   int rightMotorSpeed = Controller1.Axis2.position();
-
-  //   deadzone(leftMotorSpeed, rightMotorSpeed);
-
-  //   // Spin both motors in the forward direction.
-  //   leftMotorGroup.spin(forward);
-  //   rightMotorGroup.spin(forward);
-
-  //   wait(25, msec);
-  // }
-
-  // Code for single joystick control
+void usercontrol(void) {
   while(true) {
     
-    // Initialising axis velocities
     int yVel = applyDeadband(Controller1.Axis3.position()); // drive Velocity
     int xVel = applyDeadband(Controller1.Axis4.position()); // turn Velocity
 
@@ -71,10 +57,50 @@ int main() {
     leftMotorGroup.setVelocity(leftMotorSpeed, percent);
     rightMotorGroup.setVelocity(rightMotorSpeed, percent);
 
-    // Spin both motors in the forward direction
     leftMotorGroup.spin(forward);
     rightMotorGroup.spin(forward);
 
+    if (Controller1.ButtonX.pressing()) {
+      DriveTrain.setDriveVelocity(50, percent);
+      moveForward1000mm();
+      while (Controller1.ButtonX.pressing()) {
+        wait(20, msec);
+      }
+    } else if (Controller1.ButtonB.pressing()) {
+      DriveTrain.setDriveVelocity(50, percent);
+      moveBackward1000mm();
+      while (Controller1.ButtonB.pressing()) {
+        wait(20, msec);
+      }
+    }
+
+    if(Controller1.ButtonA.pressing()) {
+      leftMotorGroup.setVelocity(100, percent);
+      rightMotorGroup.setVelocity(100, percent);
+      leftMotorGroup.spin(forward);
+      rightMotorGroup.spin(forward);
+      wait(10000, msec);
+      leftMotorGroup.stop();
+      rightMotorGroup.stop();
+    }
+
+    if(Controller1.ButtonY.pressing()) {
+      leftMotorGroup.stop();
+      rightMotorGroup.stop();
+      wait(20, msec);
+    }
+
+
     wait(25, msec);
+  }
+}
+
+int main() {
+  vexcodeInit();
+  Competition.autonomous(autonomous);
+  Competition.drivercontrol(usercontrol);
+
+  while(true) {
+    wait(100, msec);
   }
 }
