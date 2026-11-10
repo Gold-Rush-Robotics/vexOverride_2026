@@ -23,10 +23,16 @@ extern motor rightMotor2;
 extern motor rightMotor3;
 extern motor rightMotor4;
 extern motor rightMotor5;
+extern motor bottomArmMotor1;
+extern motor bottomArmMotor2;
+extern motor topArmMotor1;
+extern motor topArmMotor2;
 
 //VEX motor group initializations
 extern motor_group leftMotorGroup;
 extern motor_group rightMotorGroup;
+extern motor_group bottomArmMotorGroup;
+extern motor_group topArmMotorGroup;
 
 extern drivetrain myDriveTrain;
 void vexcodeInit(void);

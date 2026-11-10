@@ -44,6 +44,22 @@ int main() {
 
     // Small delay keeps the loop responsive without starving other robot tasks.
     wait(20, msec);
+
+    
+    while(Controller1.ButtonL1.pressing()) {
+      bottomArmMotorGroup.setVelocity(100, percentUnits::pct);
+      bottomArmMotorGroup.spin(forward);
+      topArmMotorGroup.spin(forward);
+    }
+
+    while(Controller1.ButtonL2.pressing()) {
+      topArmMotorGroup.setVelocity(100, percentUnits::pct);
+      bottomArmMotorGroup.spin(reverse);
+      topArmMotorGroup.spin(reverse);
+    }
+
+    topArmMotorGroup.stop(hold);
+    bottomArmMotorGroup.stop(hold);
   }
 }
 
