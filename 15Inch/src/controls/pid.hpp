@@ -117,7 +117,7 @@ class PID{
         integral = clampI(calcI(dt));
         last_error = error;
 
-        result = clampResult(rawResult);
+        result = clampResult(rawResult());
 
         return result;
     }
