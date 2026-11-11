@@ -36,7 +36,7 @@ class PID{
     bool first_update = true;
 
     static double wrap180(double angle) {
-        angle = fmod((angle + 180.0, 360.0));
+        angle = fmod(angle + 180.0, 360.0);
 
         if (angle < 0) {angle += 360.0;}
 
@@ -99,7 +99,7 @@ class PID{
     }
 
     // Output related function(s)
-    double clampResult() {
+    double clampResult(double result) {
         return fmax(min_out, fmin(result, max_out));
     }
 
