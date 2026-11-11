@@ -99,7 +99,7 @@ class PID{
     }
 
     // Output related function(s)
-    double clampResult() {
+    double clampResult(double result) {
         return fmax(min_out, fmin(result, max_out));
     }
 
