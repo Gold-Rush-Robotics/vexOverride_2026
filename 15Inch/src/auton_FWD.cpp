@@ -13,7 +13,7 @@ void moveDistancePID(double targetMm) {
   rightMotorGroup.setPosition(0, degrees);
   Brain.Screen.clearScreen();
 
-  PID distancePID(0.125, 0.002, 0.00225, 0.0, 0.0, -60.0, 60.0, false);
+  PID distancePID(0.125, 0.005, 0.0025, 0.0, 0.0, -60.0, 60.0, false);
   int settledCycles = 0;
   int cycles = 0;
 
