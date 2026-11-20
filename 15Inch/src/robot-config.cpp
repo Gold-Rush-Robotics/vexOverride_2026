@@ -8,8 +8,8 @@ using code = vision::code;
 brain Brain;
 
 // Calling VEXcode sensor constructors
-inertial Inertial = inertial(PORT10);
-gps GPS = gps(PORT1);
+inertial Inertial = inertial(PORT6);
+gps GPS = gps(PORT10);
 
 controller Controller1 = controller(primary);
 motor leftMotor1 = motor(PORT5, ratio6_1, false);
